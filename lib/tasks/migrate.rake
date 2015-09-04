@@ -4,7 +4,7 @@ namespace :charts do
     ChartIssueStatus.delete_all
     ChartTimeEntry.delete_all
 
-    Journal.all(:conditions => {:journalized_type => "Issue"}, :order => "id asc").each do |journal|
+    Journal.where(:journalized_type => "Issue").order("id asc").each do |journal|
       journal.details.each do |detail|
         if detail.property == "attr"
           if detail.prop_key == "done_ratio"
@@ -16,7 +16,7 @@ namespace :charts do
       end
     end
 
-    TimeEntry.all(:order => "id asc").each do |t|
+    TimeEntry.order("id asc").each do |t|
       RedmineCharts::TimeEntryPatch.add_chart_time_entry(t.project_id, t.issue_id, t.user_id, t.activity_id, t.hours, t.spent_on)
     end
   end

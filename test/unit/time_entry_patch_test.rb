@@ -7,14 +7,14 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
 
     assert issue.save
 
-    assert_equal 0, ChartTimeEntry.all(:conditions => {:issue_id => issue.id}).size
+    assert_equal 0, ChartTimeEntry.where(:issue_id => issue.id).size
 
     time_entry = TimeEntry.new(:issue_id => issue.id, :activity_id => 9, :hours => 2, :spent_on => Time.mktime(2010,3,11))
     time_entry.user_id = 1
 
     assert time_entry.save
 
-    time_entries = ChartTimeEntry.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    time_entries = ChartTimeEntry.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 2, time_entries.size
 
@@ -43,7 +43,7 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
 
     assert time_entry.save
 
-    time_entries = ChartTimeEntry.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    time_entries = ChartTimeEntry.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 2, time_entries.size
 
@@ -66,7 +66,7 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
 
     assert time_entry.save
 
-    time_entries = ChartTimeEntry.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    time_entries = ChartTimeEntry.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 3, time_entries.size
 
@@ -96,7 +96,7 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
 
     assert time_entry.save
 
-    time_entries = ChartTimeEntry.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    time_entries = ChartTimeEntry.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 5, time_entries.size
 
@@ -138,7 +138,7 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
     time_entry.hours = 2
     assert time_entry.save
 
-    time_entries = ChartTimeEntry.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    time_entries = ChartTimeEntry.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 2010071, time_entries[3].day
     assert_equal issue.id, time_entries[3].issue_id
@@ -157,7 +157,7 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
     tmp_time_entry.hours = 20
     assert tmp_time_entry.save
 
-    time_entries = ChartTimeEntry.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    time_entries = ChartTimeEntry.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 2010070, time_entries[0].day
     assert_equal issue.id, time_entries[0].issue_id
@@ -175,7 +175,7 @@ class TimeEntryPatchTest < ActiveSupport::TestCase
 
     issue.destroy
 
-    assert_equal 0, ChartTimeEntry.all(:conditions => {:issue_id => issue.id}).size
+    assert_equal 0, ChartTimeEntry.where(:issue_id => issue.id).size
   end
 
 end

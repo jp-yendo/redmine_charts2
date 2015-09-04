@@ -9,7 +9,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert issue.save
     issue.reload
 
-    issue_status = ChartIssueStatus.all(:conditions => {:issue_id => issue.id})
+    issue_status = ChartIssueStatus.where(:issue_id => issue.id)
 
     assert_equal 1, issue_status.size
 
@@ -23,7 +23,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     issue.status_id = 2
     assert issue.save
 
-    issue_status = ChartIssueStatus.all(:conditions => {:issue_id => issue.id})
+    issue_status = ChartIssueStatus.where(:issue_id => issue.id)
 
     assert_equal 1, issue_status.size
     assert_equal 2, issue_status[0].status_id
@@ -33,7 +33,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     issue.status_id = 3
     assert issue.save
 
-    issue_status = ChartIssueStatus.all(:conditions => {:issue_id => issue.id})
+    issue_status = ChartIssueStatus.where(:issue_id => issue.id)
 
     assert_equal 2, issue_status.size
 
@@ -53,7 +53,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     issue.status_id = 5
     assert issue.save
 
-    done_ratio = ChartDoneRatio.all(:conditions => {:issue_id => issue.id})
+    done_ratio = ChartDoneRatio.where(:issue_id => issue.id)
 
     assert_equal 2, done_ratio.size
 
@@ -70,12 +70,12 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert issue.save
     issue.reload
 
-    assert_equal 0, ChartDoneRatio.all(:conditions => {:issue_id => issue.id}).size
+    assert_equal 0, ChartDoneRatio.where(:issue_id => issue.id).size
 
     issue.done_ratio = 10
     issue.save
 
-    done_ratio = ChartDoneRatio.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    done_ratio = ChartDoneRatio.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 2, done_ratio.size
 
@@ -96,7 +96,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     issue.done_ratio = 20
     issue.save
 
-    done_ratio = ChartDoneRatio.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    done_ratio = ChartDoneRatio.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 2, done_ratio.size
     assert_equal 20, done_ratio[0].done_ratio
@@ -107,7 +107,7 @@ class IssuePatchTest < ActiveSupport::TestCase
     issue.done_ratio = 30
     issue.save
 
-    done_ratio = ChartDoneRatio.all(:conditions => {:issue_id => issue.id}, :order => "id asc")
+    done_ratio = ChartDoneRatio.where(:issue_id => issue.id).order("id asc")
 
     assert_equal 3, done_ratio.size
     assert_equal 30, done_ratio[0].done_ratio
@@ -116,7 +116,7 @@ class IssuePatchTest < ActiveSupport::TestCase
 
     issue.destroy
 
-    assert_equal 0, ChartDoneRatio.all(:conditions => {:issue_id => issue.id}).size
+    assert_equal 0, ChartDoneRatio.where(:issue_id => issue.id).size
   end
 
   def test_done_ratio_creation_with_done_ratio
@@ -124,11 +124,11 @@ class IssuePatchTest < ActiveSupport::TestCase
     assert issue.save
     issue.reload
 
-    assert_equal 2, ChartDoneRatio.all(:conditions => {:issue_id => issue.id}).size
+    assert_equal 2, ChartDoneRatio.where(:issue_id => issue.id).size
 
     issue.destroy
 
-    assert_equal 0, ChartDoneRatio.all(:conditions => {:issue_id => issue.id}).size
+    assert_equal 0, ChartDoneRatio.where(:issue_id => issue.id).size
   end
 
 end

@@ -16,7 +16,7 @@ class ChartsIssueController < ChartsController
 
     group_column = RedmineCharts::GroupingUtils.to_column(@grouping, 'issues')
 
-    rows = Issue.all(:select => "#{group_column || 0} as group_id, count(*) as issues_count", :conditions => conditions, :group => group_column)
+    rows = Issue.select("#{group_column || 0} as group_id, count(*) as issues_count").where(conditions).group(group_column)
 
     total_issues = 0
 
